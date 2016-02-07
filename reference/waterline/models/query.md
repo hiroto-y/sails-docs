@@ -1,21 +1,21 @@
 # .query()
 
-`.query()` is only available on Sails/Waterline models using a SQL database (PostgreSQL and mySQL) adapter.  Its purpose is to perform raw SQL queries.
+`.query()`はSails/WaterlineをSQLデータベース（PostgreSQLとmySQL）と使っている時のみ利用可能です。この目的は生のSQLクエリを実行することです。
 
 
-### Example
+### 例
 
 ```js
 Pet.query('SELECT pet.name FROM pet', function(err, results) {
   if (err) return res.serverError(err);
-  return res.ok(results);
+  return res.ok(results.rows);
 });
 ```
 
 
 
-### Notes
-> This method only works with PostgreSQL and mySQL! use .native() for Mongo.
+### 備考
+> このメソッドはPostgreSQLとmySQLにのみ利用可能です。Mongoには.native()をご利用下さい。
 
 
 

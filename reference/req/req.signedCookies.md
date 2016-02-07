@@ -1,21 +1,27 @@
 # req.signedCookies
+リクエストに含まれる全てのサイン済クッキー含むオブジェクトです。サイン済クッキーはクライアントサイドでの変更を防ぎます。この保護はクッキー値のHMACハッシュをBase64エンコードしたもので提供されます。クッキーを取得した時、HMACシグネチャがクッキー値を元にしたものとマッチしない時、そのクッキーは`req.signedCookies`オブジェクトの一員としては使えません。
 
-### Purpose
-An object containing all of the [**signed cookies**](https://github.com/balderdashy/sails-docs/blob/master/PAGE_NEEDED.md) from this request (`req`).
+### 目的
+リクエスト(`req`)のサイン済みのクッキーをすべて持つオブジェクト
 
 
-### Usage
+### 使い方
 ```javascript
 req.signedCookies;
 ```
 
 
 
-### Example
-Assuming the request contained a signed cookie named "chocolatechip" with value "Yummy:
+### 例
+"chocolatechip"という名前で"Yummy"の値を持つサイン済クッキーを追加:
 
 ```javascript
-req.cookies.chocolatechip;
+res.cookie('chocolatechip', 'Yummy', {signed:true});
+```
+
+クッキーを取得:
+```javascript
+req.signedCookies.chocolatechip;
 // "Yummy"
 ```
 

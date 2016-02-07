@@ -1,8 +1,8 @@
 # sails console
 
-Quietly lift your sails app (i.e. with logging silenced), and enter the [node REPL](http://nodejs.org/api/repl.html).  This means you can access and use all of your models, services, configuration, and much more.  Useful for trying out Waterline queries, quickly managing your data, and checking out your project's runtime configuration.
+Sailsアプリケーションを静かにliftし（すなわちログをサイレントにした状態で）[node REPL](http://nodejs.org/api/repl.html)に入ります。これは全てのモデルやサービス、設定などにアクセスして利用できるということです。Waterlineを試したり、簡単にデータ管理をしたり、プロジェクトの実行時設定を確認するのに便利です。
 
-### Example
+### 例
 
 ```sh
 $ sails console
@@ -15,19 +15,19 @@ info: ( to exit, type <CTRL>+<C> )
 sails>
 ```
 
-> Note that `sails console` still lifts the server, so your routes will be accessible via HTTP and sockets (e.g. in a browser.)
+> `sails console`がサーバ上で起動されているため、ルートはHTTPとソケットを通じて（ブラウザなどから）を通じてアクセス可能ということを覚えておいてください。
 
 
 
 
 
 
-### Global variables in sails console
+### sails console内のグローバル変数
 
-Sails exposes the same [global variables](http://beta.sailsjs.org/#/documentation/reference/Globals) in the console as it does in your app code. This is particularly useful in the REPL.  By default, you have access to the `sails` app instance, your models, and your services, as well as Lo-Dash (`sails.util._`) and async (`async`).
+SailsはSailsアプリケーションに対してするように、いつくかの[グローバル変数](http://sailsjs.org/documentation/reference/Globals) をコンソールに露出しています。これは特にREPLで便利です。デフォルトでは`sails`アプリケーションインスタンスとモデル、サービスへのアクセスと、同様にLo-Dash (`sails.util._`)とasync (`async`)のアクセスも持ちます。
 
 
-> **Warning**
+> **警告**
 >
 > Be careful when using `_` as a variable name in the Node REPL- and when possible, don't.
 > (It doesn't work quite like you'd expect.)
@@ -49,6 +49,47 @@ Sails exposes the same [global variables](http://beta.sailsjs.org/#/documentatio
 > sails> lodash.keys(sails.config);
 > ```
 
+### さらなる例
+
+#### Waterline
+
+`Model.action(query).exec(console.log)`フォーマットのconsole.logは結果を見るのに最適です。
+
+```sh
+sails> User.create({name: 'Brian', password: 'sailsRules'}).exec(console.log)
+undefined
+sails> null { name: 'Brian',
+  password: 'sailsRules',
+  createdAt: "2014-08-07T04:29:21.447Z",
+  updatedAt: "2014-08-07T04:29:21.447Z",
+  id: 1 }
+```
+
+いいですね、これがデータベースに挿入されます。しかしながら、undefinedとnullにお気づきのことと思います。気にしないでください。.exec()は値に対するエラーとデータを返すということを思い出してください。そのため、`.exec(console.log)`を実行することは`.exec(console.log(err, data))`を実行することと同じです。2番めのメソッドはundefinedのメッセージを削除し、新しい行にnullを追加します。更に多くの方が必要であれば、ご自由に出来ます。
+
+#### Sailsをエクスポートする
+
+Sailsコンソールにおいて、`sails`とタイプすることで、Sailsのプロパティを見れます。これはSailsに関して更に学んだり、プロパティを上書きしたりグローバルを無効化しているかどうかを確認するのに使えます。
+
+```sh
+sails> sails
+  |>   [a lifted Sails app on port 1337]
+\___/  For help, see: http://links.sailsjs.org/docs
+
+Tip: Use `sails.config` to access your app's runtime configuration.
+
+1 Models:
+User
+
+1 Controllers:
+UserController
+
+20 Hooks:
+moduleloader,logger,request,orm,views,blueprints,responses,controllers,sockets,p
+ubsub,policies,services,csrf,cors,i18n,userconfig,session,grunt,http,projecthooks
+
+sails>
+```
+
 <docmeta name="uniqueID" value="sailsconsole198558">
 <docmeta name="displayName" value="sails console">
-

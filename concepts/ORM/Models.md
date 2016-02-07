@@ -2,9 +2,36 @@
 
 モデルは構造化されたデータの集合を表し、通常はデータベースの中のひとつのテーブルまたはコレクションを含みます。モデルは通常`api/models/`フォルダの中にファイルを作成することで定義します。
 
+```javascript
+// Parrot.js
+// The set of parrots registered in our app.
+module.exports = {
+  attributes: {
+    // e.g., "Polly"
+    name: {
+      type: 'string'
+    },
 
-![screenshot of a Waterline/Sails model in Sublime Text 2](http://i.imgur.com/8uRlFi8.png)
+    // e.g., 3.26
+    wingspan: {
+      type: 'float',
+      required: true
+    },
 
+    // e.g., "cm"
+    wingspanUnits: {
+      type: 'string',
+      enum: ['cm', 'in', 'm', 'mm'],
+      defaultsTo: 'cm'
+    },
+
+    // e.g., [{...}, {...}, ...]
+    knownDialects: {
+      collection: 'Dialect'
+    }
+  }
+}
+```
 
 <!--
 
@@ -22,12 +49,13 @@ module.exports = {
 
 ### モデルを使う
 
-モデルはコントローラ、ポリシー、サービス、レスポンス、テスト及びカスタムモデルからアクセス可能です。モデルにはいくつものメソッドが自動で用意されておりそのうち最も大切なのは[find](http://beta.sailsjs.org/#/documentation/reference/waterline/models/find.html)、[create](http://beta.sailsjs.org/#/documentation/reference/waterline/models/create.html)、[update](http://beta.sailsjs.org/#/documentation/reference/waterline/models/update.html)、[destroy](http://beta.sailsjs.org/#/documentation/reference/waterline/models/destroy.html)です。これらのメソッドは[非同期](https://github.com/balderdashy/sails-docs/blob/master/PAGE_NEEDED.md)で処理されます。（裏側ではWaterlineがクエリーをデータベースに投げ、レスポンスを待ちます。）
+
+モデルはコントローラ、ポリシー、サービス、レスポンス、テスト及びカスタムモデルからアクセス可能です。モデルにはいくつものメソッドが自動で用意されておりそのうち最も大切なのは[find](http://sailsjs.org/documentation/reference/waterline/models/find.html)、[create](http://sailsjs.org/documentation/reference/waterline/models/create.html)、[update](http://sailsjs.org/documentation/reference/waterline/models/update.html)、[destroy](http://sailsjs.org/documentation/reference/waterline/models/destroy.html)です。これらのメソッドは[非同期](https://github.com/balderdashy/sails-docs/blob/master/PAGE_NEEDED.md)で処理されます。（裏側ではWaterlineがクエリーをデータベースに投げ、レスポンスを待ちます。）
+
 
 最終的にはクエリメソッドはクエリオブジェクトを返します。実際にクエリを実行するには`.exec(cb)`をこのクエリオブジェクト上でコールしなければなりません。（`cb`はクエリが完了後に呼び出されるコールバックです。）
 
 Waterlineはpromiseのためのオプトインサポートも用意しています。クエリオブジェクトで`.exec()`を呼び出す代わりに[Q promise](https://github.com/kriskowal/q)を返す`.then()`、`.spread()`や `.fail()`をコールすることも出来ます。
-
 
 
 
@@ -56,8 +84,9 @@ findWithSameNameAsPerson: function (opts, cb) {
 
   var person = opts.person;
 
-  //すべての作業を行う前にレコードが渡されたのか主キーが渡されたのかを確認する。
-  //  もし主キーが渡された場合はその人の情報をLookupする。:
+  // すべての作業を行う前にレコードが渡されたのか主キーが渡されたのかを確認する。
+  //
+  // もし主キーが渡された場合はその人の情報をLookupする。:
   (function _lookupPersonIfNecessary(afterLookup){
     // (this self-calling function is just for concise-ness)
     if (typeof person === 'object')) return afterLookup(null, person);
@@ -140,22 +169,22 @@ Person.findByFirstName('emma').exec(function(err,people){ ... });
 
 pubsubのhookに接続された特別なクラスメソッドです。詳細は[resourceful pubsubの項目](http://sailsjs.org/#/documentation/reference/websockets/resourceful-pubsub)をご覧ください。
 
+
 <!--
 another special type of class method.  It stands for 'Publish, Subscribe' and that's just what they do. These methods play a big role in how Sails integrates and utilizes Socket.IO.  They are used to subscribe clients to and publish messages about the creation, update, and destruction of models.  If you want to build real-time functionality in Sails, these will come in handy.
 -->
 
 #### アトリビュートメソッド（レコード/インスタンスメソッド）
 
-アトリビュートメソッドはWaterlineクエリーから帰ってきたレコード（つまりモデルインスタンス）で利用可能なファンクションです。
-例えばStudentモデルからGPAの高い10人の生徒を探してきた場合、それぞれ生徒のレコードはカスタムアトリビュートメソッドや既存のアトリビュートメソッドにアクセスできます。
+アトリビュートメソッドはWaterlineクエリーから帰ってきたレコード（つまりモデルインスタンス）で利用可能なファンクションです。例えばStudentモデルからGPAの高い10人の生徒を探してきた場合、それぞれ生徒のレコードはカスタムアトリビュートメソッドや既存のアトリビュートメソッドにアクセスできます。
 
 ###### ビルトインのアトリビュートメソッド
 すべてのWaterlineモデルにはいくつかのアトリビュートメソッドが自動的に含まれています。例えば:
 
-+ [`.toJSON()`]()
-+ [`.save()`]()
-+ [`.destroy()`]()
-+ [`.validate()`]()
++ [`.toJSON()`](http://sailsjs.org/documentation/reference/waterline/records/toJSON.html)
++ [`.save()`](http://sailsjs.org/documentation/reference/waterline/records/save.html)
++ [`.destroy()`](http://sailsjs.org/documentation/reference/waterline/models/destroy.html)
++ [`.validate()`](http://sailsjs.org/documentation/reference/waterline/records/validate.html)
 
 
 <!-- note to self- we should bundle a getPrimaryKeyValue() attribute method on every model in waterline core (or maybe just getId() since "id" is simpler to understand) ~mike - aug2,2014 -->
@@ -245,7 +274,6 @@ Person.marry([joe,raquel], function (err) {
 
 ###### アトリビュートメソッドに命名する
 アトリビュートメソッドに命名するときにはあなたの作業中のモデルに最初からある**アトリビュートバリュー**とあなたが作った _アトリビュートメソッド_ との間で競合を起こさないために一定の命名規則で行ってください。良いプラクティスとしては"get*" (例えば`getFullName()`)の形式でプレフィックスを付けるということとレコードそのものを改編するアトリビュートメソッドを書くのを避けるということです。
-
 
 <!--
 

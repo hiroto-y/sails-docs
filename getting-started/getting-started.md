@@ -1,12 +1,11 @@
 # Sailsをはじめる
 
 ## インストール
-
 コマンドラインツールを使って最新の安定版のリリースをインストインストールするには:
 
 	sudo npm -g install sails
 
-Windowsではsudoする必要はありません:
+Windows(かMac OSとHomebrew)ではsudoする必要はありません:
 
 	npm -g install sails
 
@@ -24,5 +23,4 @@ Windowsではsudoする必要はありません:
 
 それではSailsを使ってクールなものを作る作業を始めましょう。
 
-<docmeta name="uniqueID" value="GettingStarted99009">
 <docmeta name="displayName" value="Getting Started">

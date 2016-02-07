@@ -15,7 +15,8 @@ migrate: 'safe'
 
 単純に言うとこの設定はSailsがあなたのスキーマのテーブルやコレクション、セットなどをどのようにして自動リビルドするかを定義するものです。
 
-本番環境(NODE_ENV==="production"の状態の時)にはSailsはデータを不用意に削除してしまうのを防ぐため、つねに`migrate:"safe"`を利用します。然し開発環境では簡便のために他の方法を使うことが出来ます。
+本番環境(NODE_ENV==="production"の状態の時)にはSailsはデータを不用意に削除してしまうのを防ぐため、つねに`migrate:"safe"`を利用します。
+しかし開発環境では簡便のために他の方法を使うことが出来ます。
 
  1. safe  - データベースを自動マイグレーションしません。開発者が手動でやります。
  2. alter - データを保持したまま自動マイグレーションします。（実験的運用）
@@ -31,7 +32,7 @@ Sailsを起動するときにWaterlineはデータベースの中にあるすべ
 |`drop`       | Sailsを起動するときにすべてのデータを消してデータベースを再構築します。
 
 
-> 備考　`drop`を行うことではもちろん、`alter`でもデータ消失のリスクが有ります。ご注意ください。本番環境でのデータセットでは決して`drop`や`alter`を使わないでください。
+> 備考　`drop`を行うことではもちろん、`alter`でもデータ消失のリスクが有ります。ご注意ください。本番環境でのデータセットでは決して`drop`や`alter`を使わないでください。更に、大規模なデータベースでは`alter`を選択すると起動に時間がかかることがあります。これにより`sails console`のようなコマンドがハングアップしているように見えることがあります。
 
 
 
@@ -53,7 +54,7 @@ schema: true
 connection: 'my-local-postgresql'
 ```
 
-設定済みのデータベース[接続設定](http://beta.sailsjs.org/#/documentation/reference/sails.config/sails.config.connections.html)のうち、このモデルがデータを取得したるデータを書き込むものです。デフォルトは`sails-disk`をつかったSailsのデフォルトのデータベースである`localDiskDb`が選択されます。`
+設定済みのデータベース[接続設定](http://sailsjs.org/documentation/reference/sails.config/sails.config.connections.html)のうち、このモデルがデータを取得したるデータを書き込むものです。デフォルトは`sails-disk`をつかったSailsのデフォルトのデータベースである`localDiskDb`が選択されます。`
 
 
 ### `identity`
@@ -70,7 +71,7 @@ identity: 'purchase'
 globalId: 'Purchase'
 ```
 
-このフラッグはモデルに（モデルのグローバルアクセスが許可されている場合に限り）グローバルでアクセス可能な際の名前を決定します。models-においてモデルのグローバルを無効化するためにこのフラグを使ってはいけません。[sails.config.globals]()を御覧ください。
+このフラッグはモデルに（モデルのグローバルアクセスが許可されている場合に限り）グローバルでアクセス可能な際の名前を決定します。models-においてモデルのグローバルを無効化するためにこのフラグを使ってはいけません。[sails.config.globals](http://sailsjs.org/documentation/concepts/Globals?q=disabling-globals)を御覧ください。
 
 
 
@@ -80,8 +81,7 @@ globalId: 'Purchase'
 autoPK: true
 ```
 
-自動で主キーアトリビュートを定義するかどうかを定義するフラグです。デフォルトのPKはアダプタによって異なります。（例えば、MySQLはオートインクリメントの整数を使いますし、Mongo DBはランダムなUUIDを使います。）いずれのケースにおいてもautoPKで作成された主キーはユニークです。もしこの機能をOffにしたら自動で主キーは作成されなくなりますので手動設定する必要があります.
-例：
+自動で主キーアトリビュートを定義するかどうかを定義するフラグです。デフォルトのPKはアダプタによって異なります。（例えば、MySQLはオートインクリメントの整数を使いますし、Mongo DBはランダムなUUIDを使います。）いずれのケースにおいてもautoPKで作成された主キーはユニークです。もしこの機能をOffにしたら自動で主キーは作成されなくなりますので手動設定する必要があります.例：
 
 ```js
 attributes: {
@@ -151,10 +151,9 @@ attributes: {
 }
 ```
 
-[アトリビュート]()の項目をご覧ください。
+[アトリビュート](http://sailsjs.org/documentation/concepts/ORM/Attributes.html)の項目をご覧ください。
 
 
 
 <docmeta name="uniqueID" value="Modelconfiguration960213">
 <docmeta name="displayName" value="Model Settings">
-

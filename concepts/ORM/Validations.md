@@ -7,12 +7,11 @@ Sailsはモデルのアトリビュートに対する自動バリデーション
 バリデーションは[バリデータ](https://github.com/chriso/validator.js)の最上位層に位置する[Anchor](https://github.com/balderdashy/anchor)と呼ばれる軽量なレイヤーによってハンドルされます。AncherはNode.jsで最もパワフルなバリデータの一つです。`unique`のように一部にデータベース上での実装がなされていることが必要な物は有りますが、Sailsではバリデータの中のほとんどすべての種類のバリデーションをサポートします。
 
 
-
 |バリデータ名|確認するもの|利用上の注意|
 |-------------------|---------------------|----------------|
 |after|入力された日付の文字列が指定日より後のものか。|正しいJavascriptのDate形式である必要があります。|
 |alpha|	アルファベッドのみ(a-zA-Z)を含む文字列かどうか。| |
-|alphadashed|   |数字とダッシュのみを含む文字列であるかどうか。（訳注：要確認）|
+|alphadashed|   |アルファベットとダッシュのみを含む文字列であるかどうか。）|
 |alphanumeric| アルファベッドと数字のみを含む文字列かどうか。| |
 |alphanumericdashed	|アルファベッド、数字、ダッシュのみを含む文字列かどうか。| |
 |array|	正しいJavascriptの配列形式であるか。|「配列化された文字列」はパスしない。|
@@ -74,7 +73,7 @@ Sailsはモデルのアトリビュートに対する自動バリデーション
 
 
 
-### Custom Validation Rules
+### カスタムバリデーションルール
 
 タイプオブジェクトを使うとオリジナルのバリデーション規則を定義することが出来ます。ここでは別々のアトリビュートを参照し、比較することも出来ます("this"を使って)。これによりバリデーションのビジネスロジックをコントローラからモデルへと移動することが出来ます。
 
@@ -119,8 +118,9 @@ module.exports = {
  ```
 
 
+### カスタムバリデーションメッセージ
+Sailsはそのままではカスタムバリデーションメッセージをサポートしていませんがv0.11.0以降では[Hook](http://sailsjs.org/documentation/concepts/extending-sails/Hooks)が利用可能です: [sails-hook-validator](https://github.com/lykmapipo/sails-hook-validation) この使い方に関しての詳細は[sails-hook-validator](https://github.com/lykmapipo/sails-hook-validation)レポジトリをご覧ください。
 
 
 <docmeta name="uniqueID" value="Validations576587">
 <docmeta name="displayName" value="Validations">
-
